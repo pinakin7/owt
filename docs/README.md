@@ -20,7 +20,7 @@ Open `docs/` as an Obsidian vault to browse the relation graph; every link is a 
 - **Newcomer:** [vision-and-scope](product/vision-and-scope.md) → [system-overview](architecture/system-overview.md) → [prd-mvp](product/prd-mvp.md) → [roadmap](product/roadmap.md)
 - **Implementer:** [glossary](product/glossary.md) → [data-model](architecture/data-model.md) → [data-sources](architecture/data-sources.md) → [cargo-workspace](architecture/cargo-workspace.md) → the [design/](design/) LLD for your area, plus its linked ADRs
 - **Operator:** [deployment](ops/deployment.md) → [observability](ops/observability.md) → [runbook](ops/runbook.md)
-- **AI agents:** read this file, then [glossary](product/glossary.md). From the map below, load only the note(s) whose `summary` matches your task; follow each note's `related` links one hop at a time. Never load `research/plan.md` except to audit provenance.
+- **AI agents:** read this file, then [glossary](product/glossary.md). From the map below, load only the note(s) whose `summary` matches your task; follow each note's `related` links one hop at a time.
 
 ## The map
 
@@ -88,7 +88,6 @@ The authoritative index with process lives at [adr/README.md](adr/README.md).
 | Note | Status | Summary |
 |---|---|---|
 | [governance/open-decisions.md](governance/open-decisions.md) | draft | Living register of open decisions with the defaults currently in force and their promotion path to ADRs. |
-| [research/plan.md](research/plan.md) | superseded | Original July 2026 deep-research report that seeded this vault (provenance only; superseded where it conflicts with vault docs). |
 
 ## Conventions
 
@@ -117,7 +116,7 @@ related:
 
 ## Precedence
 
-Where this vault and [research/plan.md](research/plan.md) conflict, **the vault wins**. The stack of record is a Rust backend with a native ratatui client, per [ADR-0001](adr/0001-rust-backend.md) and [ADR-0002](adr/0002-ratatui-tui-first-client.md). Deliberate deviations from the research report are listed in [roadmap § Divergences](product/roadmap.md#divergences-from-the-research-report).
+The original deep-research report that seeded this vault has been removed; where its recommendations are still relevant, **the vault wins**. The stack of record is a Rust backend with a native ratatui client, per [ADR-0001](adr/0001-rust-backend.md) and [ADR-0002](adr/0002-ratatui-tui-first-client.md). Deliberate deviations from the research report are listed in [roadmap § Divergences](product/roadmap.md#divergences-from-the-research-report).
 
 ## How decisions are made
 

@@ -6,7 +6,7 @@ Thanks for considering it. owt is docs-first right now — the founding design v
 
 - **Read the vault index first:** [docs/README.md](docs/README.md) explains the conventions (frontmatter, link style, note size). The [glossary](docs/product/glossary.md) defines every term; use them exactly.
 - **Decisions are ADRs.** Changes to the canonical schema, auth model, storage engines, deployment topology, or public API contract require an ADR — process in [docs/adr/README.md](docs/adr/README.md). Smaller open questions go through [open-decisions](docs/governance/open-decisions.md).
-- **The vault wins over the research report.** Never cite `docs/research/plan.md` as authority; it is provenance.
+- **The vault wins over the original research report.** The report has been removed from the vault; [ADR-0001](docs/adr/0001-rust-backend.md) and [ADR-0002](docs/adr/0002-ratatui-tui-first-client.md) are the sole surviving record of the stack it recommended and why it was rejected — never cite that stack as authority.
 - **Stack of record:** Rust backend + ratatui TUI ([ADR-0001](docs/adr/0001-rust-backend.md), [ADR-0002](docs/adr/0002-ratatui-tui-first-client.md)).
 
 ## How to contribute
