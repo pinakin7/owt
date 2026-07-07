@@ -1,0 +1,9 @@
+# Obsidian: commit link-format settings only; workspace state churns per-user
+docs/.obsidian/*
+!docs/.obsidian/app.json
+
+# macOS
+.DS_Store
+
+# Rust (future code phases)
+/target/
