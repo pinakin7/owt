@@ -30,6 +30,8 @@ allow = [
     "CC0-1.0",
     "MPL-2.0",
     "OpenSSL",
+    # Data license on the Mozilla CA-root bundle (webpki-roots); permissive.
+    "CDLA-Permissive-2.0",
 ]
 
 [bans]
@@ -37,6 +39,8 @@ allow = [
 # tokio-tungstenite dedupe already applied); revisit if the graph bloats.
 multiple-versions = "warn"
 wildcards = "deny"
+# Internal workspace crates are path deps (no version req); don't flag them as wildcards.
+allow-wildcard-paths = true
 
 [sources]
 unknown-registry = "deny"
