@@ -1,0 +1,21 @@
+[package]
+name = "owt-search"
+version = "0.1.0"
+description = "Typesense collection schemas as code, thin REST client, indexer consumer, alias-swap rebuild job."
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+authors.workspace = true
+rust-version.workspace = true
+
+[lints]
+workspace = true
+
+[dependencies]
+owt-domain.workspace = true
+owt-bus.workspace = true
+reqwest.workspace = true
+tokio.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+thiserror.workspace = true
