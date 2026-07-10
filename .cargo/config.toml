@@ -1,0 +1,3 @@
+# `cargo xtask <cmd>` runs the dev-automation binary (docs/ops/ci-cd-and-release.md).
+[alias]
+xtask = "run --package xtask --"
