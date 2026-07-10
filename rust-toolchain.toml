@@ -1,0 +1,6 @@
+# Pinned toolchain for reproducible builds and CI. Keep the channel at latest
+# stable; MSRV (latest stable minus two) is enforced separately via
+# `rust-version` in Cargo.toml (cargo-workspace.md § Workspace policy).
+[toolchain]
+channel = "stable"
+components = ["rustfmt", "clippy"]
