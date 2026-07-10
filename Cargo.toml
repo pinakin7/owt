@@ -74,7 +74,7 @@ rustls = "0.23"
 
 # --- storage, bus, search ---
 sqlx = { version = "0.8", default-features = false, features = ["runtime-tokio", "tls-rustls-ring-webpki", "postgres", "macros", "time", "uuid"] }
-async-nats = "0.38"
+async-nats = "0.49"
 
 # --- serialization, errors, rate limiting ---
 serde = { version = "1", features = ["derive"] }
