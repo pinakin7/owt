@@ -44,19 +44,21 @@ rust-version = "1.95"
 # (supply-chain review: docs/ops/ci-cd-and-release.md).
 [workspace.dependencies]
 # --- internal crates (path deps) ---
-owt-domain = { path = "crates/owt-domain" }
-owt-api-types = { path = "crates/owt-api-types" }
-owt-runtime = { path = "crates/owt-runtime" }
-owt-ingest-core = { path = "crates/owt-ingest-core" }
-owt-source-polymarket = { path = "crates/owt-source-polymarket" }
-owt-source-news = { path = "crates/owt-source-news" }
-owt-normalize = { path = "crates/owt-normalize" }
-owt-bus = { path = "crates/owt-bus" }
-owt-store = { path = "crates/owt-store" }
-owt-search = { path = "crates/owt-search" }
-owt-api = { path = "crates/owt-api" }
-owt-client = { path = "crates/owt-client" }
-owt-testkit = { path = "crates/owt-testkit" }
+# Both `path` and `version` are set: cargo uses the path for workspace builds, while
+# the version keeps the deps non-wildcard (supply-chain: cargo-deny) and publish-ready.
+owt-domain = { path = "crates/owt-domain", version = "0.1.0" }
+owt-api-types = { path = "crates/owt-api-types", version = "0.1.0" }
+owt-runtime = { path = "crates/owt-runtime", version = "0.1.0" }
+owt-ingest-core = { path = "crates/owt-ingest-core", version = "0.1.0" }
+owt-source-polymarket = { path = "crates/owt-source-polymarket", version = "0.1.0" }
+owt-source-news = { path = "crates/owt-source-news", version = "0.1.0" }
+owt-normalize = { path = "crates/owt-normalize", version = "0.1.0" }
+owt-bus = { path = "crates/owt-bus", version = "0.1.0" }
+owt-store = { path = "crates/owt-store", version = "0.1.0" }
+owt-search = { path = "crates/owt-search", version = "0.1.0" }
+owt-api = { path = "crates/owt-api", version = "0.1.0" }
+owt-client = { path = "crates/owt-client", version = "0.1.0" }
+owt-testkit = { path = "crates/owt-testkit", version = "0.1.0" }
 
 # --- async runtime & middleware (ADR-0001) ---
 tokio = { version = "1", features = ["rt-multi-thread", "macros", "signal", "sync", "time"] }
