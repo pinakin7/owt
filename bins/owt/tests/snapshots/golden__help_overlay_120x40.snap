@@ -1,0 +1,44 @@
+---
+source: bins/owt/tests/golden.rs
+expression: "frame(&mut s, 120, 40)"
+---
+owt search                                                                                         LIVE  ● ws: connected
+┌ results ───────────────────────────────────────────────────────┐┌ preview ───────────────────────────────────────────┐
+│› market Will the Fed cut rates in September?                   ││Will the Fed cut rates in September?                │
+│  event  Federal Reserve September Meeting                      ││market · will-fed-cut-rates-in-september            │
+│  topic  Jerome P┌ help ────────────────────────────────────────────────────────────────────────────┐                 │
+│  news   Reuters:│:  /       command palette                                                        │                 │
+│                 │h j k l    move within pane / lists                                               │                 │
+│                 │Tab        cycle pane focus                                                       │                 │
+│                 │Enter      open selection                                                         │                 │
+│                 │Esc        close overlay / back                                                   │                 │
+│                 │g g / G    top / bottom of list                                                   │                 │
+│                 │w          toggle watch on selection                                              │                 │
+│                 │1..9       jump to watchlist n                                                    │                 │
+│                 │?          this help                                                              │                 │
+│                 │q  Ctrl-C  quit                                                                   │                 │
+│                 │                                                                                  │                 │
+│                 │commands:  /open /topic /watch /compare /news /export /view /help /quit           │                 │
+│                 │                                                                                  │                 │
+│                 │                                                                                  │                 │
+│                 │                                                                                  │                 │
+│                 │                                                                                  │                 │
+│                 │                                                                                  │                 │
+│                 │                                                                                  │                 │
+│                 │                                                                                  │                 │
+│                 │                                                                                  │                 │
+│                 │                                                                                  │                 │
+│                 │                                                                                  │                 │
+│                 │                                                                                  │                 │
+│                 │                                                                                  │                 │
+│                 │                                                                                  │                 │
+│                 │                                                                                  │                 │
+│                 │                                                                                  │                 │
+│                 │                                                                                  │                 │
+│                 │                                                                                  │                 │
+│                 │                                                                                  │                 │
+│                 └──────────────────────────────────────────────────────────────────────────────────┘                 │
+│                                                                ││                                                    │
+│                                                                ││                                                    │
+└────────────────────────────────────────────────────────────────┘└────────────────────────────────────────────────────┘
+ http://127.0.0.1:8080   :cmd  ?help  Tab focus  Enter open  Esc back  q quit

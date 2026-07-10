@@ -1,0 +1,6 @@
+---
+source: bins/owt/tests/golden.rs
+expression: "frame(&mut s, 70, 20)"
+---
+                          terminal too small
+                   70×20 — owt needs at least 80×24

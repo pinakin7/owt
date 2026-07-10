@@ -1,0 +1,28 @@
+---
+source: bins/owt/tests/golden.rs
+expression: "frame(& mut s, 80, 24)"
+---
+owt topic: ent-jerome-powell                               LIVE  ● ws: connected
+┌ topic ───────────────────────────────────────────────────────────────────────┐
+│Jerome Powell   Person                                                        │
+│Chair of the Federal Reserve. Context is human-curated (ADR-0011).            │
+└──────────────────────────────────────────────────────────────────────────────┘
+┌ Odds board ─────────────┐┌ Linked news ────────────┐┌ Related ───────────────┐
+│›  42.0¢  Cut in Septembe││Reuters: Fed official sig││Federal Reserve         │
+│   58.0¢  Hold in Septemb││                         ││Inflation               │
+│                         ││                         ││                        │
+│                         ││                         ││                        │
+│                         ││                         ││                        │
+│                         ││                         ││                        │
+│                         ││                         ││                        │
+│                         ││                         ││                        │
+│                         ││                         ││                        │
+│                         ││                         ││                        │
+│                         ││                         ││                        │
+│                         ││                         ││                        │
+│                         ││                         ││                        │
+│                         ││                         ││                        │
+│                         ││                         ││                        │
+└─────────────────────────┘└─────────────────────────┘└────────────────────────┘
+Forecast: arrives in v1 — statistical model only, always disclosed (ADR-0012)
+ http://127.0.0.1:8080   :cmd  ?help  Tab focus  Enter open  Esc back  q quit
