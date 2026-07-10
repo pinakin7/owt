@@ -1,0 +1,20 @@
+[package]
+name = "owt-api-types"
+version = "0.1.0"
+description = "The public API contract: request/response DTOs, cursor pagination, RFC 7807 errors, and the WS frame protocol."
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+authors.workspace = true
+rust-version.workspace = true
+
+[lints]
+workspace = true
+
+# Contract crate: pure types over owt-domain, no I/O (layering rule 1). The only
+# crate the TUI may know besides owt-client.
+[dependencies]
+owt-domain.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+thiserror.workspace = true
