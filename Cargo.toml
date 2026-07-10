@@ -102,6 +102,9 @@ moka = { version = "0.12", features = ["future"] }
 # --- CLI, test harness ---
 clap = { version = "4", features = ["derive", "env"] }
 wiremock = "0.6"
+# TUI golden-frame snapshots (ratatui TestBackend → insta): the per-PR TUI E2E gate
+# (docs/ops/testing-strategy.md § TUI E2E). Dev-dependency only.
+insta = "1"
 
 # Shared lints applied to every member via `[lints] workspace = true`.
 # clippy runs at `-D warnings` in CI with a small documented allow-list
