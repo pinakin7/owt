@@ -1,0 +1,27 @@
+[package]
+name = "owt"
+version = "0.1.0"
+description = "The owt ratatui TUI client. Depends only on owt-client + owt-api-types."
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+authors.workspace = true
+rust-version.workspace = true
+
+[lints]
+workspace = true
+
+[[bin]]
+name = "owt"
+path = "src/main.rs"
+
+# The TUI touches server internals only through owt-api-types / owt-client — the
+# compile-time enforcement of ADR-0010 (layering rule 2).
+[dependencies]
+owt-client.workspace = true
+owt-api-types.workspace = true
+ratatui.workspace = true
+crossterm.workspace = true
+tokio.workspace = true
+anyhow.workspace = true
+tracing.workspace = true
