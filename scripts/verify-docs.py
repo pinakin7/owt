@@ -2,7 +2,7 @@
 """Verification suite for the owt documentation vault."""
 import os, re, sys, glob
 
-ROOT = "/Users/pinakin/Projects/owt"
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DOCS = os.path.join(ROOT, "docs")
 failures, warnings = [], []
 

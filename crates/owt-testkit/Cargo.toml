@@ -1,0 +1,20 @@
+[package]
+name = "owt-testkit"
+version = "0.1.0"
+description = "Recorded-fixture harness, wiremock helpers, synthetic feed generator, golden-file utilities. Dev-dependency only."
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+authors.workspace = true
+rust-version.workspace = true
+
+[lints]
+workspace = true
+
+# Consumed only as a dev-dependency by other crates' test targets.
+[dependencies]
+owt-domain.workspace = true
+wiremock.workspace = true
+tokio.workspace = true
+serde.workspace = true
+serde_json.workspace = true

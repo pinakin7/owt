@@ -1,0 +1,21 @@
+[package]
+name = "owt-bus"
+version = "0.1.0"
+description = "JetStream wrapper: subject constants, stream/consumer configs as code, dedupe publish, replay + rehydration."
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+authors.workspace = true
+rust-version.workspace = true
+
+[lints]
+workspace = true
+
+[dependencies]
+owt-domain.workspace = true
+async-nats.workspace = true
+tokio.workspace = true
+futures.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+thiserror.workspace = true

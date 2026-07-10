@@ -1,0 +1,33 @@
+[package]
+name = "owtd"
+version = "0.1.0"
+description = "The owt server monolith. Subcommands: serve, migrate, backfill, reindex, replay, check-config."
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+authors.workspace = true
+rust-version.workspace = true
+
+[lints]
+workspace = true
+
+[[bin]]
+name = "owtd"
+path = "src/main.rs"
+
+# Composition root: wires runtime, API, normalizer, stores, bus, search, and sources.
+# alerts/forecast join at v1.
+[dependencies]
+owt-runtime.workspace = true
+owt-api.workspace = true
+owt-normalize.workspace = true
+owt-store.workspace = true
+owt-bus.workspace = true
+owt-search.workspace = true
+owt-ingest-core.workspace = true
+owt-source-polymarket.workspace = true
+owt-source-news.workspace = true
+tokio.workspace = true
+clap.workspace = true
+anyhow.workspace = true
+tracing.workspace = true

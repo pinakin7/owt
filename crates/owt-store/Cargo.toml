@@ -1,0 +1,21 @@
+[package]
+name = "owt-store"
+version = "0.1.0"
+description = "sqlx repositories, idempotent upserts, checkpoint store, embedded migrations, continuous-aggregate management."
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+authors.workspace = true
+rust-version.workspace = true
+
+[lints]
+workspace = true
+
+[dependencies]
+owt-domain.workspace = true
+sqlx.workspace = true
+tokio.workspace = true
+serde.workspace = true
+thiserror.workspace = true
+time.workspace = true
+uuid.workspace = true

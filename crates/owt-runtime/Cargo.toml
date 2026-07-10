@@ -1,0 +1,21 @@
+[package]
+name = "owt-runtime"
+version = "0.1.0"
+description = "Shared bootstrap: layered config, tracing/OTel/Prometheus init, graceful shutdown, task supervision."
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+authors.workspace = true
+rust-version.workspace = true
+
+[lints]
+workspace = true
+
+[dependencies]
+owt-domain.workspace = true
+tokio.workspace = true
+tracing.workspace = true
+tracing-subscriber.workspace = true
+figment.workspace = true
+serde.workspace = true
+thiserror.workspace = true

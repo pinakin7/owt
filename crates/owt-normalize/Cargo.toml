@@ -1,0 +1,21 @@
+[package]
+name = "owt-normalize"
+version = "0.1.0"
+description = "Source→canonical mapping, dedupe, entity resolution, timeline builder + correlation."
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+authors.workspace = true
+rust-version.workspace = true
+
+[lints]
+workspace = true
+
+# Depends on source crates ONLY for their payload types (layering rule 4), never
+# their clients.
+[dependencies]
+owt-domain.workspace = true
+owt-source-polymarket.workspace = true
+owt-source-news.workspace = true
+serde.workspace = true
+thiserror.workspace = true
