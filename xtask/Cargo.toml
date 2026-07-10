@@ -1,0 +1,21 @@
+[package]
+name = "xtask"
+version = "0.1.0"
+description = "Dev automation: fixture capture, compose orchestration, dist packaging."
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+authors.workspace = true
+rust-version.workspace = true
+publish = false
+
+[lints]
+workspace = true
+
+[[bin]]
+name = "xtask"
+path = "src/main.rs"
+
+[dependencies]
+clap.workspace = true
+anyhow.workspace = true
