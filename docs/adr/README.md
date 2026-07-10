@@ -27,6 +27,8 @@ An ADR captures one significant decision: the context that forced it, the decisi
 | [0008](0008-read-only-through-v1.md) | Read-only through v1 | approved | Read-only product through v1: no wallets, accounts, or trading until v2/v3. |
 | [0009](0009-docs-obsidian-vault.md) | Docs as Obsidian vault | approved | Documentation lives in an Obsidian-compatible vault of atomic notes with standard Markdown links. |
 | [0010](0010-rest-ws-api-protocol.md) | REST + WS API protocol | approved | REST/JSON plus one multiplexed WebSocket as the client API; gRPC and GraphQL rejected. |
+| [0011](0011-topic-lookup-entity-composite.md) | Topic lookup entity composite | draft | Topic lookup composes the entity model: a composite entities read with event-grouped aggregated odds as derived data; no parallel Topic noun. |
+| [0012](0012-forecast-derived-data-module.md) | Forecast derived-data module | draft | Forecasts are derived data from a new owt-forecast module; statistical models only, rebuildable, never LLM-generated, always disclosed. |
 
 ## When an ADR is mandatory
 
