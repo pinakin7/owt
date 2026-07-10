@@ -1,0 +1,44 @@
+# cargo-deny policy (docs/ops/ci-cd-and-release.md § Supply-chain ramp).
+# Enforced by .github/workflows/security.yml. New dependencies also require a one-line
+# justification in the PR (cargo-workspace.md § Workspace policy).
+
+[graph]
+all-features = true
+
+[advisories]
+version = 2
+yanked = "deny"
+# Add specific IDs here (with a justification comment) only to time-box an
+# unavoidable advisory; the default posture is to deny known vulnerabilities.
+ignore = []
+
+[licenses]
+version = 2
+confidence-threshold = 0.9
+# Permissive licenses compatible with the repo's Apache-2.0 code license.
+allow = [
+    "Apache-2.0",
+    "Apache-2.0 WITH LLVM-exception",
+    "MIT",
+    "MITNFA",
+    "BSD-2-Clause",
+    "BSD-3-Clause",
+    "ISC",
+    "Zlib",
+    "Unicode-3.0",
+    "Unicode-DFS-2016",
+    "CC0-1.0",
+    "MPL-2.0",
+    "OpenSSL",
+]
+
+[bans]
+# Duplicate versions are a warning, not a hard fail, at MVP (see the deliberate
+# tokio-tungstenite dedupe already applied); revisit if the graph bloats.
+multiple-versions = "warn"
+wildcards = "deny"
+
+[sources]
+unknown-registry = "deny"
+unknown-git = "deny"
+allow-registry = ["https://github.com/rust-lang/crates.io-index"]
