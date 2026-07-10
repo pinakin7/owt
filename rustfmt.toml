@@ -1,0 +1,3 @@
+# rustfmt defaults (cargo-workspace.md § Workspace policy). Only edition is set;
+# everything else is stable rustfmt's default so diffs stay tool-agnostic.
+edition = "2024"
