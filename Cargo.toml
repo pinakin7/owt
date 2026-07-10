@@ -1,0 +1,118 @@
+# owt workspace — one repository, one workspace.
+# Two binaries (owtd, owt) over a layered set of library crates.
+# The crate graph *is* the module architecture; see docs/architecture/cargo-workspace.md.
+[workspace]
+resolver = "3"
+members = [
+    # Library crates (MVP) — layered per docs/architecture/cargo-workspace.md
+    "crates/owt-domain",
+    "crates/owt-api-types",
+    "crates/owt-runtime",
+    "crates/owt-ingest-core",
+    "crates/owt-source-polymarket",
+    "crates/owt-source-news",
+    "crates/owt-normalize",
+    "crates/owt-bus",
+    "crates/owt-store",
+    "crates/owt-search",
+    "crates/owt-api",
+    "crates/owt-client",
+    "crates/owt-testkit",
+    # Binaries
+    "bins/owtd",
+    "bins/owt",
+    # Dev automation
+    "xtask",
+]
+
+# Later-phase crates (owt-alerts, owt-forecast, owt-source-goldsky, owt-source-x,
+# owt-auth, owt-source-polygon) are intentionally NOT scaffolded yet — no code lands
+# early (cargo-workspace.md § Phasing). Their subject names and dependency edges are
+# designed in the docs so they slot in without churn.
+
+[workspace.package]
+edition = "2024"
+license = "Apache-2.0"
+repository = "https://github.com/pinakin/owt"
+authors = ["owt contributors"]
+# MSRV: latest stable minus two (cargo-workspace.md § Workspace policy).
+# Pinned once the toolchain is known; keep in sync with rust-toolchain.toml.
+rust-version = "1.95"
+
+# Dependency versions are declared once here; member crates inherit via
+# `<dep>.workspace = true`. New external deps need a justification line in the PR
+# (supply-chain review: docs/ops/ci-cd-and-release.md).
+[workspace.dependencies]
+# --- internal crates (path deps) ---
+owt-domain = { path = "crates/owt-domain" }
+owt-api-types = { path = "crates/owt-api-types" }
+owt-runtime = { path = "crates/owt-runtime" }
+owt-ingest-core = { path = "crates/owt-ingest-core" }
+owt-source-polymarket = { path = "crates/owt-source-polymarket" }
+owt-source-news = { path = "crates/owt-source-news" }
+owt-normalize = { path = "crates/owt-normalize" }
+owt-bus = { path = "crates/owt-bus" }
+owt-store = { path = "crates/owt-store" }
+owt-search = { path = "crates/owt-search" }
+owt-api = { path = "crates/owt-api" }
+owt-client = { path = "crates/owt-client" }
+owt-testkit = { path = "crates/owt-testkit" }
+
+# --- async runtime & middleware (ADR-0001) ---
+tokio = { version = "1", features = ["rt-multi-thread", "macros", "signal", "sync", "time"] }
+tower = "0.5"
+tower-http = { version = "0.6", features = ["trace"] }
+futures = "0.3"
+async-trait = "0.1"
+
+# --- HTTP/WS server & clients (rustls, no OpenSSL linkage) ---
+axum = { version = "0.8", features = ["ws"] }
+utoipa = { version = "5", features = ["axum_extras"] }
+reqwest = { version = "0.12", default-features = false, features = ["json", "rustls-tls"] }
+tokio-tungstenite = { version = "0.29", features = ["rustls-tls-webpki-roots"] }
+rustls = "0.23"
+
+# --- storage, bus, search ---
+sqlx = { version = "0.8", default-features = false, features = ["runtime-tokio", "tls-rustls-ring-webpki", "postgres", "macros", "time", "uuid"] }
+async-nats = "0.38"
+
+# --- serialization, errors, rate limiting ---
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+thiserror = "2"
+anyhow = "1"
+governor = "0.8"
+
+# --- config, observability ---
+figment = { version = "0.10", features = ["toml", "env"] }
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter", "json"] }
+
+# --- TUI (ADR-0002) ---
+ratatui = "0.29"
+crossterm = "0.28"
+
+# --- shared value types & caching ---
+uuid = { version = "1", features = ["v7", "serde"] }
+time = { version = "0.3", features = ["serde", "serde-well-known", "macros", "parsing", "formatting"] }
+moka = { version = "0.12", features = ["future"] }
+
+# --- CLI, test harness ---
+clap = { version = "4", features = ["derive", "env"] }
+wiremock = "0.6"
+
+# Shared lints applied to every member via `[lints] workspace = true`.
+# clippy runs at `-D warnings` in CI with a small documented allow-list
+# (cargo-workspace.md § Workspace policy).
+[workspace.lints.rust]
+unsafe_code = "forbid"
+missing_debug_implementations = "warn"
+rust_2018_idioms = { level = "warn", priority = -1 }
+
+[workspace.lints.clippy]
+all = { level = "warn", priority = -1 }
+
+# Thin release binaries for TUI distribution via cargo-dist (ADR-0001).
+[profile.release]
+lto = "thin"
+strip = true
