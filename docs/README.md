@@ -30,6 +30,7 @@ Open `docs/` as an Obsidian vault to browse the relation graph; every link is a 
 |---|---|---|
 | [product/vision-and-scope.md](product/vision-and-scope.md) | draft | Why owt exists: the jobs it does, who it serves, its boundaries per release, and what it will never be. |
 | [product/prd-mvp.md](product/prd-mvp.md) | draft | Testable product requirements for the owt MVP: features, screens, commands, data needs, NFRs, and acceptance criteria. |
+| [product/prd-topic-lookup.md](product/prd-topic-lookup.md) | draft | Product requirements for the topic-lookup flagship: the topic page, search-first flow, aggregated market odds, and the v1 model-forecast pane. |
 | [product/roadmap.md](product/roadmap.md) | draft | Release trains MVP through v3 with goals, deliverables, and gates, re-plotted for the Rust/ratatui TUI-first stack. |
 | [product/glossary.md](product/glossary.md) | draft | Canonical vocabulary for the Polymarket domain, the owt domain, and infrastructure terms used across the vault. |
 
@@ -54,6 +55,8 @@ Open `docs/` as an Obsidian vault to browse the relation graph; every link is a 
 | [design/realtime-bus.md](design/realtime-bus.md) | draft | LLD for NATS JetStream: subject taxonomy, stream and consumer configs, replay and rehydration, and fanout. |
 | [design/tui-client.md](design/tui-client.md) | draft | LLD for the owt ratatui client: TEA event loop, pane system, command grammar, performance budgets, reconnect behavior, and packaging. |
 | [design/alerts.md](design/alerts.md) | draft | LLD for the v1 alert engine: rule model, predicate DSL, streaming evaluation, and TUI-first delivery. |
+| [design/topic-lookup.md](design/topic-lookup.md) | draft | LLD for topic lookup: entity resolution flow, the composite entities read, the aggregated-odds algorithm, TUI screen behavior, and degraded modes. |
+| [design/forecasts.md](design/forecasts.md) | draft | LLD for the v1 forecast engine: the owt-forecast module, model catalog v0, forecast storage and bus subjects, odds materialization, evaluation, and rebuild determinism. |
 
 ### Decisions (ADR)
 
@@ -71,6 +74,8 @@ The authoritative index with process lives at [adr/README.md](adr/README.md).
 | [0008](adr/0008-read-only-through-v1.md) | Read-only product through v1 | approved |
 | [0009](adr/0009-docs-obsidian-vault.md) | Docs as an Obsidian-compatible vault | approved |
 | [0010](adr/0010-rest-ws-api-protocol.md) | REST/JSON + one multiplexed WebSocket API | approved |
+| [0011](adr/0011-topic-lookup-entity-composite.md) | Topic lookup composes the entity model | draft |
+| [0012](adr/0012-forecast-derived-data-module.md) | Forecast engine as a derived-data module | draft |
 
 ### Ops
 
@@ -109,7 +114,7 @@ related:
 - **Links** are standard relative Markdown links; `[[wikilinks]]` are banned (they break GitHub rendering — see [ADR-0009](adr/0009-docs-obsidian-vault.md)). Obsidian is configured for this via the committed `.obsidian/app.json`. Each note ends with a `## Related` section repeating its `related` frontmatter as real links, which feeds the Obsidian graph.
 - **Statuses:** `draft` → `review` → `approved`; `superseded` when replaced. For ADRs, `approved` means the decision is accepted; a superseding ADR must link back.
 - **Size:** target 100–300 lines per note, soft cap 500 — split only along independently reviewable boundaries.
-- **Tags** are controlled: `area/*` (product, architecture, ingestion, data-model, storage, search, api, realtime, tui, alerts, ops, security, testing, release), `source/*` (polymarket, goldsky, news, rss, x, polygon), `release/*` (mvp, v1, v2, v3).
+- **Tags** are controlled: `area/*` (product, architecture, ingestion, data-model, storage, search, api, realtime, tui, alerts, forecasts, ops, security, testing, release), `source/*` (polymarket, goldsky, news, rss, x, polygon), `release/*` (mvp, v1, v2, v3).
 - **Diagrams:** Mermaid only — renders on GitHub and in Obsidian.
 - **Naming:** kebab-case filenames, stable once created (renames break links); the H1 matches the filename's human title.
 - **Terminology** must match the [glossary](product/glossary.md); fix the doc or the glossary, never diverge silently.
