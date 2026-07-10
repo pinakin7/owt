@@ -1,0 +1,21 @@
+[package]
+name = "owt-domain"
+version = "0.1.0"
+description = "Canonical entities, ID newtypes, the ingest envelope, and the error taxonomy. Pure types + serde, zero I/O."
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+authors.workspace = true
+rust-version.workspace = true
+
+[lints]
+workspace = true
+
+# Zero I/O dependencies by design (cargo-workspace.md, layering rule 1): no tokio,
+# sqlx, or reqwest here. Only pure value types + serde.
+[dependencies]
+serde.workspace = true
+serde_json.workspace = true
+thiserror.workspace = true
+uuid.workspace = true
+time.workspace = true
