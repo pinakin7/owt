@@ -8,9 +8,13 @@ all-features = true
 [advisories]
 version = 2
 yanked = "deny"
-# Add specific IDs here (with a justification comment) only to time-box an
-# unavoidable advisory; the default posture is to deny known vulnerabilities.
-ignore = []
+# Specific IDs time-boxed with justification; the default posture denies known vulns.
+ignore = [
+    # paste is unmaintained (not vulnerable). Pulled transitively by ratatui 0.29 with
+    # no safe upgrade available; clears when ratatui migrates off it. Re-check on
+    # ratatui bumps. https://rustsec.org/advisories/RUSTSEC-2024-0436
+    "RUSTSEC-2024-0436",
+]
 
 [licenses]
 version = 2
