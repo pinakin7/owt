@@ -1,0 +1,21 @@
+[package]
+name = "owt-ingest-core"
+version = "0.1.0"
+description = "Ingest traits, per-source token buckets, retry/backoff, checkpoints, raw-archive hook, DLQ publisher."
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+authors.workspace = true
+rust-version.workspace = true
+
+[lints]
+workspace = true
+
+[dependencies]
+owt-domain.workspace = true
+tokio.workspace = true
+futures.workspace = true
+async-trait.workspace = true
+governor.workspace = true
+serde.workspace = true
+thiserror.workspace = true
