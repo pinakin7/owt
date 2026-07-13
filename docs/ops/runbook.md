@@ -8,11 +8,17 @@ related:
   - observability.md
   - ../design/ingestion.md
   - ../design/realtime-bus.md
+  - getting-started.md
 ---
 
 # Runbook
 
 Entries for the failure classes we can name *before* production teaches us new ones. Stays `draft` until v1 hardens it with real incidents. Every [ops alert](observability.md#ops-alerts-distinct-from-product-alerts) annotation links to an entry here.
+
+> **Status — target design.** These procedures assume the running server, workers, bus,
+> store, and metrics that the v1 stack will have. The `owtd` server is currently a
+> scaffold, so the commands and signals below are not yet operable. For what runs today,
+> see [getting-started](getting-started.md).
 
 Entry format: **Symptom → Detection → Immediate → Diagnosis → Rollback/Recovery → Post-incident.**
 
@@ -95,3 +101,4 @@ Postgres restore (PITR/dump) → `owtd migrate` (no-op check) → `owtd reindex`
 - [observability.md](observability.md)
 - [../design/ingestion.md](../design/ingestion.md)
 - [../design/realtime-bus.md](../design/realtime-bus.md)
+- [getting-started.md](getting-started.md)
