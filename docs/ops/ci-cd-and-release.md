@@ -57,6 +57,21 @@ GitHub Actions, release-train discipline ([roadmap](../product/roadmap.md)). Wor
 ## Verification checklist  <!-- demo-script result, SLO snapshot -->
 ```
 
+## Changelog
+
+A root [CHANGELOG.md](../../CHANGELOG.md) tracks notable changes in
+[Keep a Changelog](https://keepachangelog.com/en/1.1.0/) form under a running
+`[Unreleased]` heading (grouped `Added` / `Changed` / `Deprecated` / `Removed` /
+`Fixed` / `Security`).
+
+- Update `[Unreleased]` in the **same PR** as any user-facing change — a new command or
+  key, an API/DTO change, a fixed behavior, or a breaking change.
+- At release, `release.yml` cuts `[Unreleased]` into a dated `vX.Y.Z` section and starts
+  a fresh one; the cut entries are the source material for the GitHub release notes
+  rendered from the template above.
+- Pre-1.0, a `Removed`/`Changed` entry that breaks compatibility maps to the notes'
+  **Breaking changes**, and any migration-affecting entry maps to **Migration steps**.
+
 ## Supply-chain ramp
 
 - **MVP:** pinned GitHub Actions (by SHA), `cargo deny` license/ban policy, dependency-review gate, secret scanning, SBOM per release, new-dependency justification rule ([cargo-workspace](../architecture/cargo-workspace.md#workspace-policy)).
