@@ -66,8 +66,13 @@ fn palette_open_command_navigates_and_loads() {
     let cmds = update(&mut s, press(KeyCode::Enter));
     assert!(!s.palette.open, "valid command closes the palette");
     assert!(matches!(s.route(), Route::MarketDetail { slug } if slug == "will-fed-cut"));
-    assert_eq!(cmds.len(), 1);
+    // Opening a market loads it and subscribes to its live topics (state/book/trades).
     assert!(matches!(&cmds[0], Cmd::Load(Route::MarketDetail { .. })));
+    let subs = cmds
+        .iter()
+        .filter(|c| matches!(c, Cmd::Subscribe(_)))
+        .count();
+    assert_eq!(subs, 3, "market open subscribes to its three live topics");
 }
 
 #[test]
