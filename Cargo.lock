@@ -1702,6 +1702,7 @@ dependencies = [
 name = "owt-client"
 version = "0.1.0"
 dependencies = [
+ "futures",
  "owt-api-types",
  "reqwest",
  "serde",
@@ -1709,6 +1710,7 @@ dependencies = [
  "thiserror",
  "tokio",
  "tokio-tungstenite",
+ "wiremock",
 ]
 
 [[package]]
