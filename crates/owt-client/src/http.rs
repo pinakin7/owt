@@ -1,16 +1,16 @@
 //! The typed REST client over the `/v1` endpoints (`docs/design/query-api.md`).
 //!
-//! Every method is typed against the `owt-api-types` contract. Until the server ships
-//! they build the request they *would* send and return [`ClientError::Unimplemented`];
-//! the request-building seam (`req`) is exactly where the live calls land in the
-//! follow-up (ADR-0002).
+//! Every method is typed against the `owt-api-types` contract and routed through the
+//! request-building seam (`req`) and the response seam (`send`).
 
 use owt_api_types::API_VERSION;
 use owt_api_types::dto::{
     BookDto, EntityView, EventDetail, MarketDetail, NewsDto, SearchHit, TradeDto, WatchlistView,
 };
+use owt_api_types::error::ProblemDetails;
 use owt_api_types::pagination::Page;
 use reqwest::{Client, RequestBuilder};
+use serde::de::DeserializeOwned;
 
 use crate::config::ServerConfig;
 use crate::error::ClientError;
@@ -48,53 +48,72 @@ impl RestClient {
         }
     }
 
+    /// Send a built request and decode the response into `T`. The single response seam:
+    /// transport/decode failures become [`ClientError::Http`]; a non-2xx response with an
+    /// RFC 7807 body becomes [`ClientError::Api`], otherwise [`ClientError::Status`].
+    async fn send<T: DeserializeOwned>(&self, rb: RequestBuilder) -> Result<T, ClientError> {
+        let resp = rb
+            .send()
+            .await
+            .map_err(|e| ClientError::Http(e.to_string()))?;
+        let status = resp.status();
+        if status.is_success() {
+            resp.json::<T>()
+                .await
+                .map_err(|e| ClientError::Http(e.to_string()))
+        } else {
+            let body = resp.text().await.unwrap_or_default();
+            match serde_json::from_str::<ProblemDetails>(&body) {
+                Ok(problem) => Err(ClientError::Api(problem)),
+                Err(_) => Err(ClientError::Status {
+                    status: status.as_u16(),
+                    body,
+                }),
+            }
+        }
+    }
+
     /// `GET /v1/search?q=…`
     pub async fn search(&self, query: &str) -> Result<Page<SearchHit>, ClientError> {
-        let _req = self.req("search").query(&[("q", query)]);
-        Err(ClientError::Unimplemented("RestClient::search"))
+        self.send(self.req("search").query(&[("q", query)])).await
     }
 
     /// `GET /v1/markets/{slug}`
     pub async fn market(&self, slug: &str) -> Result<MarketDetail, ClientError> {
-        let _req = self.req(&format!("markets/{slug}"));
-        Err(ClientError::Unimplemented("RestClient::market"))
+        self.send(self.req(&format!("markets/{slug}"))).await
     }
 
     /// `GET /v1/markets/{slug}/book`
     pub async fn book(&self, slug: &str) -> Result<BookDto, ClientError> {
-        let _req = self.req(&format!("markets/{slug}/book"));
-        Err(ClientError::Unimplemented("RestClient::book"))
+        self.send(self.req(&format!("markets/{slug}/book"))).await
     }
 
     /// `GET /v1/markets/{slug}/trades`
     pub async fn trades(&self, slug: &str) -> Result<Vec<TradeDto>, ClientError> {
-        let _req = self.req(&format!("markets/{slug}/trades"));
-        Err(ClientError::Unimplemented("RestClient::trades"))
+        self.send(self.req(&format!("markets/{slug}/trades"))).await
     }
 
     /// `GET /v1/markets/{slug}/news`
     pub async fn market_news(&self, slug: &str) -> Result<Vec<NewsDto>, ClientError> {
-        let _req = self.req(&format!("markets/{slug}/news"));
-        Err(ClientError::Unimplemented("RestClient::market_news"))
+        self.send(self.req(&format!("markets/{slug}/news"))).await
     }
 
     /// `GET /v1/events/{slug}`
     pub async fn event(&self, slug: &str) -> Result<EventDetail, ClientError> {
-        let _req = self.req(&format!("events/{slug}"));
-        Err(ClientError::Unimplemented("RestClient::event"))
+        self.send(self.req(&format!("events/{slug}"))).await
     }
 
     /// `GET /v1/entities/{id}?include=odds,news,related`
     pub async fn entity(&self, id: &str) -> Result<EntityView, ClientError> {
-        let _req = self
-            .req(&format!("entities/{id}"))
-            .query(&[("include", "odds,news,related")]);
-        Err(ClientError::Unimplemented("RestClient::entity"))
+        self.send(
+            self.req(&format!("entities/{id}"))
+                .query(&[("include", "odds,news,related")]),
+        )
+        .await
     }
 
     /// `GET /v1/watchlists/{id}`
     pub async fn watchlist(&self, id: &str) -> Result<WatchlistView, ClientError> {
-        let _req = self.req(&format!("watchlists/{id}"));
-        Err(ClientError::Unimplemented("RestClient::watchlist"))
+        self.send(self.req(&format!("watchlists/{id}"))).await
     }
 }
