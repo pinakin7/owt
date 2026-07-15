@@ -1,9 +1,10 @@
-//! The fixture data seam (ADR-0002 skeleton pass).
+//! The data seam.
 //!
-//! Screens render from these fixtures — modeled on the PRD wireframe market
-//! `will-fed-cut-rates-in-september` — instead of a live server. This is the single
-//! place the real `owt-client` calls land in the follow-up: replace each `fn` body
-//! with the corresponding `RestClient`/`WsClient` call; `update`/`view` do not change.
+//! [`fetch`] is the live path: it maps a [`Route`] to the `owt-client` REST calls that
+//! back it and returns a [`Loaded`] bundle (the runtime spawns it and feeds the result
+//! back as `Msg::Loaded`/`Msg::Failed`). The fixture functions below (`load`, `search`,
+//! `market`, …) feed the golden-frame and `update` test harnesses the same shapes
+//! without a server, so snapshots stay deterministic.
 
 use owt_api_types::TimelineKind;
 use owt_api_types::dto::{
@@ -12,11 +13,42 @@ use owt_api_types::dto::{
     WatchlistRow, WatchlistView,
 };
 use owt_api_types::{EntityKind, ids};
+use owt_client::{ClientError, RestClient};
 use time::OffsetDateTime;
 use time::macros::datetime;
 
 use crate::app::Loaded;
 use crate::app::route::Route;
+
+/// Fetch the data backing `route` from a live server. `query` is the current search
+/// input (used only by [`Route::Search`]). Market detail fans out to four endpoints
+/// concurrently; the failure of any one fails the load.
+pub async fn fetch(client: &RestClient, route: &Route, query: &str) -> Result<Loaded, ClientError> {
+    match route {
+        Route::Search => {
+            let page = client.search(query).await?;
+            Ok(Loaded::Search { hits: page.items })
+        }
+        Route::MarketDetail { slug } => {
+            let (detail, book, trades, news) = tokio::try_join!(
+                client.market(slug),
+                client.book(slug),
+                client.trades(slug),
+                client.market_news(slug),
+            )?;
+            Ok(Loaded::Market {
+                detail: Box::new(detail),
+                book,
+                trades,
+                news,
+            })
+        }
+        Route::EventWorkspace { slug } => Ok(Loaded::Event(Box::new(client.event(slug).await?))),
+        Route::TopicView { id } => Ok(Loaded::Entity(Box::new(client.entity(id).await?))),
+        // No list route exists yet (ADR-0002 scope); show the `default` workspace.
+        Route::Watchlists => Ok(Loaded::Watchlists(vec![client.watchlist("default").await?])),
+    }
+}
 
 /// A fixed "now" so fixtures and golden frames are deterministic.
 fn now() -> OffsetDateTime {

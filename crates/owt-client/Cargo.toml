@@ -16,6 +16,17 @@ owt-api-types.workspace = true
 reqwest.workspace = true
 tokio-tungstenite.workspace = true
 tokio.workspace = true
+# Sink/Stream combinators over the split WebSocket in ws.rs / the reconnect driver.
+futures.workspace = true
 serde.workspace = true
 serde_json.workspace = true
 thiserror.workspace = true
+
+[dev-dependencies]
+# REST contract tests mock the server over HTTP (testing-strategy.md § API contract).
+wiremock.workspace = true
+# WS contract tests stand up an in-test tungstenite server; the driver needs a runtime.
+tokio = { workspace = true, features = ["macros", "rt-multi-thread", "test-util"] }
+tokio-tungstenite.workspace = true
+futures.workspace = true
+serde_json.workspace = true

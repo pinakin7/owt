@@ -157,10 +157,7 @@ fn apply_action(state: &mut AppState, action: Action) -> Vec<Cmd> {
             state.should_quit = true;
             vec![Cmd::Quit]
         }
-        Action::Back => {
-            state.pop_route();
-            Vec::new()
-        }
+        Action::Back => back(state),
         Action::FocusNext | Action::Right => {
             screen_focus(state, true);
             Vec::new()
@@ -285,15 +282,26 @@ fn on_open(state: &mut AppState) -> Vec<Cmd> {
         Route::Watchlists => state.screens.watchlists.open(),
     };
     match result {
-        OpenResult::Route(route) => {
-            state.push_route(route.clone());
-            vec![Cmd::Load(route)]
-        }
+        OpenResult::Route(route) => open_route(state, route),
         OpenResult::Toast(text) => {
             state.info(text);
             Vec::new()
         }
         OpenResult::None => Vec::new(),
+    }
+}
+
+/// Pop the current route, unsubscribing any live topics it held. Returns the unsubscribe
+/// commands (empty when already at the root or the screen had no subscriptions).
+fn back(state: &mut AppState) -> Vec<Cmd> {
+    let leaving = state.route().clone();
+    if state.pop_route() {
+        route_topics(&leaving)
+            .into_iter()
+            .map(Cmd::Unsubscribe)
+            .collect()
+    } else {
+        Vec::new()
     }
 }
 
@@ -378,7 +386,22 @@ fn dispatch_command(state: &mut AppState, command: Command) -> Vec<Cmd> {
 
 fn open_route(state: &mut AppState, route: Route) -> Vec<Cmd> {
     state.push_route(route.clone());
-    vec![Cmd::Load(route)]
+    let mut cmds = vec![Cmd::Load(route.clone())];
+    cmds.extend(route_topics(&route).into_iter().map(Cmd::Subscribe));
+    cmds
+}
+
+/// The live WS topics a route wants subscribed while it is on screen. Only markets carry
+/// live subscriptions today (state/book/tape); other screens are REST-only.
+fn route_topics(route: &Route) -> Vec<String> {
+    match route {
+        Route::MarketDetail { slug } => vec![
+            format!("market:{slug}:state"),
+            format!("market:{slug}:book"),
+            format!("market:{slug}:trades"),
+        ],
+        _ => Vec::new(),
+    }
 }
 
 /// The first ident/quoted argument's value, if any.

@@ -8,11 +8,17 @@ related:
   - ../architecture/system-overview.md
   - ../design/storage.md
   - ci-cd-and-release.md
+  - getting-started.md
 ---
 
 # Deployment
 
 Two supported shapes at MVP: **local/self-host** (Docker Compose, one machine) and **production-initial** (single region, role-split owtd). The TUI is never deployed — it's a distributed binary ([ci-cd-and-release](ci-cd-and-release.md)).
+
+> **Status — target design.** This describes the intended deployment. The `owtd` server
+> is currently a scaffold (subcommands parse but print "not yet implemented"), and the
+> Compose stack, `.env.example`, and migrations below do not exist yet. For what runs
+> today, see [getting-started](getting-started.md).
 
 ## Local & self-host (canonical): Docker Compose
 
@@ -36,6 +42,7 @@ docker compose exec owtd owtd backfill --top 200 --days 30
 owt                            # TUI from a release binary, talks to 127.0.0.1:8080
 ```
 
+- The `owtd migrate`/`backfill` invocations above are the **target** CLI. The current scaffold accepts a narrower shape (e.g. `owtd backfill <source>`, no `--top`/`--days`) — see [getting-started § the owtd server](getting-started.md#the-owtd-server-scaffold).
 - `.env.example` documents every variable with a sane default: `OWT__DB__URL`, `OWT__NATS__URL`, `OWT__TYPESENSE__{URL,API_KEY}`, `OWT__API__{BIND,BEARER_TOKEN}`, `OWT__ARCHIVE__{MODE,PATH,S3_*}`, per-source budget overrides.
 - Config precedence everywhere: defaults → TOML → `OWT__*` env → CLI flags ([cargo-workspace](../architecture/cargo-workspace.md)).
 - Dev loop outside Docker: `docker compose up postgres nats typesense` + `cargo run -p owtd -- serve` — supported and CI-tested.
@@ -87,3 +94,4 @@ Adopt nothing without measuring its trigger ([system-overview § scale-up](../ar
 - [../architecture/system-overview.md](../architecture/system-overview.md)
 - [../design/storage.md](../design/storage.md)
 - [ci-cd-and-release.md](ci-cd-and-release.md)
+- [getting-started.md](getting-started.md)
