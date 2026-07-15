@@ -1,17 +1,12 @@
 //! `owt` — the ratatui TUI client (ADR-0002, `docs/design/tui-client.md`).
 //!
-//! An Elm-style `Model`/`Msg`/`update`/`view` loop over a single WebSocket, talking to
-//! the server exclusively through `owt-client` + `owt-api-types`. This scaffold parses
-//! arguments and prints a banner; the render loop and connection lifecycle land in the
-//! TUI implementation phase.
+//! A thin entry point: all logic lives in the `owt_tui` library so it can be unit- and
+//! golden-frame-tested without a terminal. This shell just spins the async runtime and
+//! delegates to [`owt_tui::run`].
 
 use anyhow::Result;
 
 #[tokio::main]
 async fn main() -> Result<()> {
-    println!(
-        "owt {} — TUI client scaffold (not yet implemented)",
-        env!("CARGO_PKG_VERSION")
-    );
-    Ok(())
+    owt_tui::run().await
 }

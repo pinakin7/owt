@@ -19,7 +19,7 @@ Open `docs/` as an Obsidian vault to browse the relation graph; every link is a 
 
 - **Newcomer:** [vision-and-scope](product/vision-and-scope.md) → [system-overview](architecture/system-overview.md) → [prd-mvp](product/prd-mvp.md) → [roadmap](product/roadmap.md)
 - **Implementer:** [glossary](product/glossary.md) → [data-model](architecture/data-model.md) → [data-sources](architecture/data-sources.md) → [cargo-workspace](architecture/cargo-workspace.md) → the [design/](design/) LLD for your area, plus its linked ADRs
-- **Operator:** [deployment](ops/deployment.md) → [observability](ops/observability.md) → [runbook](ops/runbook.md)
+- **Operator:** [getting-started](ops/getting-started.md) → [deployment](ops/deployment.md) → [observability](ops/observability.md) → [runbook](ops/runbook.md)
 - **AI agents:** read this file, then [glossary](product/glossary.md). From the map below, load only the note(s) whose `summary` matches your task; follow each note's `related` links one hop at a time.
 
 ## The map
@@ -81,6 +81,7 @@ The authoritative index with process lives at [adr/README.md](adr/README.md).
 
 | Note | Status | Summary |
 |---|---|---|
+| [ops/getting-started.md](ops/getting-started.md) | draft | Developer bootstrap for the current tree: prerequisites, build/test/lint commands, running the owt TUI, the CI gates, and what works today versus scaffold. |
 | [ops/deployment.md](ops/deployment.md) | draft | Dev and production topology: four-service Docker Compose stack, single-region production, migrations flow, and scale triggers. |
 | [ops/observability.md](ops/observability.md) | draft | Telemetry standards: OpenTelemetry pipeline, first-class metrics catalog, SLO dashboards, and logging conventions. |
 | [ops/runbook.md](ops/runbook.md) | draft | Incident runbook entries for the failure classes known at design time. |

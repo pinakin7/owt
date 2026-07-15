@@ -11,6 +11,13 @@ rust-version.workspace = true
 [lints]
 workspace = true
 
+# A thin library target holds the pure app core (AppState/Msg/update/view + screens),
+# so unit tests and golden-frame tests drive it without a terminal. `main.rs` is the
+# process shell (args, config, logging, terminal, event loop) around this core.
+[lib]
+name = "owt_tui"
+path = "src/lib.rs"
+
 [[bin]]
 name = "owt"
 path = "src/main.rs"
@@ -21,7 +28,26 @@ path = "src/main.rs"
 owt-client.workspace = true
 owt-api-types.workspace = true
 ratatui.workspace = true
-crossterm.workspace = true
+# event-stream: the async crossterm EventStream feeding the TEA loop.
+crossterm = { workspace = true, features = ["event-stream"] }
 tokio.workspace = true
 anyhow.workspace = true
 tracing.workspace = true
+# Async EventStream + tick/mpsc merge for the event loop.
+futures.workspace = true
+# Config schema (owt-client) + figment layered load; CLI flags; file logging.
+serde.workspace = true
+figment.workspace = true
+clap.workspace = true
+time.workspace = true
+tracing-subscriber.workspace = true
+
+[dev-dependencies]
+# Golden-frame snapshots over ratatui TestBackend (testing-strategy.md § TUI E2E).
+insta.workspace = true
+# Integration tests drive the pure core directly, so they name these types (normal
+# deps aren't visible to the separate test crate).
+owt-client.workspace = true
+owt-api-types.workspace = true
+ratatui.workspace = true
+crossterm.workspace = true

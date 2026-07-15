@@ -1,0 +1,28 @@
+---
+source: bins/owt/tests/golden.rs
+expression: "frame(& mut s, 80, 24)"
+---
+owt market: will-fed-cut-rates-in-september                LIVE  ● ws: connected
+┌ market ──────────────────────────────────────────────────────────────────────┐
+│42.0¢ YES   Spread 2.0¢   Vol 24h $3.2M   Liquidity high                      │
+│Event: federal-reserve-september-meeting   Tags: economics fed macro          │
+└──────────────────────────────────────────────────────────────────────────────┘
+┌ Order Book ──────────────────────────────────────────────────────────────────┐
+│ask 44.0¢     800                                                             │
+│ask 43.0¢    1200                                                             │
+│mid 42.0¢                                                                     │
+│bid 41.0¢    1050                                                             │
+│bid 40.0¢    2100                                                             │
+│                                                                              │
+│                                                                              │
+│                                                                              │
+│                                                                              │
+│                                                                              │
+│                                                                              │
+│                                                                              │
+│                                                                              │
+│                                                                              │
+│                                                                              │
+└──────────────────────────────────────────────────────────────────────────────┘
+Timeline: Powell speech → +3.0¢ in 18m → 12 linked articles  (open the event for
+ http://127.0.0.1:8080   :cmd  ?help  Tab focus  Enter open  Esc back  q quit
