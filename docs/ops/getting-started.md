@@ -18,12 +18,16 @@ related:
 What actually runs in the repository today, and how to build, test, and drive it. The
 deployment guide ([deployment](deployment.md)) and runbook ([runbook](runbook.md))
 describe the *target* operation of the full stack; this note is the ground truth for the
-current tree, where the server is still a scaffold.
+current tree, where the server runs as a supervised chassis but its roles do no real work
+yet.
 
 > **State of the tree.** The `owt` TUI client and the `owt-client` SDK are implemented.
-> The `owtd` server is a scaffold: its subcommands parse but print "not yet implemented",
-> and there is no Docker Compose stack, config loading, or database yet. You can build,
-> test, lint, and run the TUI; you cannot yet run a server for it to talk to.
+> The `owtd` server runs as a modular-monolith chassis (ADR-0003): `serve --roles`
+> supervises one placeholder worker per role with graceful shutdown, and `check-config`
+> loads and prints the merged configuration — but the roles do no real work yet, and
+> `migrate`/`backfill`/`reindex`/`replay` still print "not yet implemented". There is no
+> Docker Compose stack, database, or bus yet. You can build, test, lint, run the TUI, and
+> start the server, but it exposes no API for the TUI to talk to.
 
 ## Prerequisites
 
@@ -87,23 +91,33 @@ server URL is `http://127.0.0.1:8080`. Full schema and precedence live in
 shows `reconnecting`/`offline`, and each screen load surfaces a `Failed` toast. This
 exercises the SDK's live REST/WS error and connection-health paths end to end.
 
-## The owtd server (scaffold)
+## The owtd server
 
 ```bash
 cargo run -p owtd -- --help
+cargo run -p owtd -- serve --roles api    # supervised runtime; Ctrl-C to drain
+cargo run -p owtd -- check-config         # print the merged configuration
 ```
 
-The CLI parses, but every subcommand prints "not yet implemented" and exits. Current
-shape (note it is narrower than the target CLI the design docs describe):
+`serve` and `check-config` run; the remaining subcommands parse but print "not yet
+implemented" and exit. Current shape (narrower than the target CLI the design docs
+describe):
 
 | Subcommand | Current args | Status |
 |---|---|---|
-| `serve` | `--roles <csv>` (default `all`) | scaffold |
+| `serve` | `--roles <csv>` (default `all`), `--config <path>` | works (chassis) |
+| `check-config` | `--config <path>` | works |
 | `migrate` | none | scaffold |
 | `backfill` | `<source>` (positional) | scaffold |
 | `reindex` | none | scaffold |
 | `replay` | `<subject>` (positional) | scaffold |
-| `check-config` | none | scaffold |
+
+`serve --roles <ingest,normalize,index,api,alerts|all>` starts one supervised tokio
+worker per role and drains them on SIGINT/SIGTERM (a second Ctrl-C force-quits). The
+workers are **placeholders** — they log that they started and idle until shutdown; each
+role's real work (store, bus, search, API) lands in a later ADR. Config is the layered
+figment merge (defaults → `owt.toml`/`OWT_CONFIG` → `OWT__*` env), overridable with
+`--config`.
 
 Where [deployment](deployment.md) and [runbook](runbook.md) show richer invocations
 (e.g. `owtd backfill --top 200 --days 30`, `owtd replay --subjects ... --from ...`), those
@@ -122,7 +136,8 @@ subcommand is a scaffold that prints "not yet implemented".
 | `owt-client` SDK (REST client, WS client, reconnect session) | works |
 | Domain types / API DTOs (`owt-domain`, `owt-api-types`) | works |
 | CI (`ci.yml`, `security.yml`) | works |
-| `owtd` server (serve, migrate, backfill, reindex, replay) | scaffold |
+| `owtd` runtime chassis (`serve --roles`, supervision, graceful shutdown, `check-config`) | works |
+| `owtd` role work + `migrate` / `backfill` / `reindex` / `replay` | scaffold |
 | Persistence / bus / search wiring (Postgres, NATS, Typesense) | scaffold |
 | HTTP/WS API, `/v1/*`, health, admin surface | scaffold |
 | Docker Compose stack, `.env.example`, migrations | design only ([deployment](deployment.md)) |
