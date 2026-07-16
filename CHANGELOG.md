@@ -12,6 +12,16 @@ releases yet — everything below is unreleased and the workspace is at `0.1.0`.
 
 ### Added
 
+- `owtd`: `serve --roles <ingest,normalize,index,api,alerts|all>` now runs a real
+  supervised runtime (ADR-0003) — one gracefully-shutdown tokio worker per selected
+  role, drained on SIGINT/SIGTERM (double-Ctrl-C force-quits) within a bounded 30s
+  window. Role workers are placeholders until each module's ADR lands. `check-config`
+  validates and prints the merged configuration.
+- `owt-runtime`: the shared server chassis behind `owtd` — signal-driven graceful
+  `shutdown`, a restart-with-backoff task `supervisor` (panics surface as structured
+  logs, not silent aborts), JSON `telemetry` init (`OWT_LOG`/`RUST_LOG`), and the
+  layered `config` loader (defaults → TOML → `OWT__*` env) with a minimal
+  `RuntimeConfig`.
 - `owt-client`: the typed REST client now performs real requests against the `/v1` API —
   `search`, market detail / book / trades / news, event, entity, and watchlist —
   replacing the previous not-yet-implemented stubs.
@@ -29,7 +39,10 @@ releases yet — everything below is unreleased and the workspace is at `0.1.0`.
 
 ### Notes
 
-- The `owtd` server is still a scaffold: its subcommands parse but print "not yet
+- The `owtd` server now runs as a modular-monolith chassis (ADR-0003): `serve`
+  supervises one placeholder worker per role and `check-config` works, but the roles do
+  no real work yet (ingest/normalize/store/search/API and the NATS bus land in later
+  ADRs), and `migrate`, `backfill`, `reindex`, and `replay` still print "not yet
   implemented". See [docs/ops/getting-started.md](docs/ops/getting-started.md) for what
   runs today.
 
